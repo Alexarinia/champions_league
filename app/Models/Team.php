@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\GameMatch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,11 @@ class Team extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function matches()
+    {
+        return $this->belongsToMany(GameMatch::class, 'game_match_team', 'game_match_id', 'team_id')->withPivot(['host', 'goals']);
+    }
     
     /*
     |--------------------------------------------------------------------------

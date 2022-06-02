@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('game_matches', function (Blueprint $table) {
+        Schema::create('game_match_team', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_week_id')->cascadeOnDelete();
+            $table->foreignId('team_id')->nullOnDelete();
+            $table->foreignId('game_match_id')->cascadeOnDelete();
+            $table->boolean('host');
+            $table->smallInteger('goals')->default(0);
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('game_matches');
+        Schema::dropIfExists('game_match_team');
     }
 };

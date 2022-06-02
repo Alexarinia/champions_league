@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class GameMatchFactory extends Factory
 {
+    
     /**
      * Define the model's default state.
      *
@@ -19,10 +20,6 @@ class GameMatchFactory extends Factory
     public function definition()
     {
         return [
-            'team_1_id' => Team::factory()->create(),
-            'team_2_id' => Team::factory()->create(),
-            'team_1_goals' => $this->faker->numberBetween(0, 4),
-            'team_2_goals' => $this->faker->numberBetween(0, 4),
             'game_week_id' => GameWeek::factory()->create(),
         ];
     }
