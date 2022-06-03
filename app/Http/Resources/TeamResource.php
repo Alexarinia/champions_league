@@ -17,6 +17,9 @@ class TeamResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'goals' => $this->whenPivotLoaded('game_match_team', function () {
+                return $this->pivot->goals;
+            }),
         ];
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\GameMatchCollection;
+use App\Http\Resources\TeamCollection;
+use App\Http\Resources\TeamResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GameWeekResource extends JsonResource
+class GameMatchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +18,8 @@ class GameWeekResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'order' => $this->week_order,
-            'matches' => new GameMatchCollection($this->matches),
+            'host' => new TeamResource($this->host()),
+            'guest' => new TeamResource($this->guest()),
         ];
     }
 }
