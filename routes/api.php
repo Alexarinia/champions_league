@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\GameWeekController;
 use App\Http\Controllers\Api\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'teams'], function () {
     Route::get('/', [TeamController::class, 'getTeamsList']);
+});
+
+Route::group(['prefix' => 'weeks'], function () {
+    Route::get('/', [GameWeekController::class, 'getGameWeeksList']);
 });
