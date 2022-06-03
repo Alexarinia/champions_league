@@ -7,7 +7,7 @@
             </header>
 
             <div class="overflow-x-auto p-3">
-                <table class="table-auto w-full">
+                <table class="table-auto w-full" v-if="teams">
                     <tbody class="text-sm divide-y divide-gray-100">
                         <tr v-for="team in teams" :key="team.id">
                             <td class="p-2">
@@ -26,11 +26,22 @@
 </template>
 
 <script>
+import { getLeagueTeams } from '../store/fetchData';
+
 export default {
     data() {
         return {
             teams: []
         };
+    },
+    methods: {
+        async loadTeams() {
+            const teams = await getLeagueTeams();
+            this.teams = teams.data ?? [];
+        }
+    },
+    mounted() {
+        this.loadTeams();
     }
 }
 </script>
