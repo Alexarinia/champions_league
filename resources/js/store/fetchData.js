@@ -10,3 +10,6 @@ export async function getLeagueTeams() {
     return await sendRequest('/api/teams');
 }
 
+export async function getLeagueWeeks() {
+  return await sendRequest('/api/weeks');
+}

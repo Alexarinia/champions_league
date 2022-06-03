@@ -1,4 +1,5 @@
 import LeagueTeams from './components/LeagueTeams.vue';
+import LeagueFixtures from './components/Fixtures/LeagueFixtures.vue';
 
 export const routes = [
     {
@@ -6,3 +7,9 @@ export const routes = [
         path: '/',
         component: LeagueTeams
     },
+    {
+        name: 'fixtures',
+        path: '/fixtures',
+        component: LeagueFixtures
+    },
+];
