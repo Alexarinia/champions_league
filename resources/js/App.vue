@@ -3,16 +3,11 @@
         <div class="text-center" style="margin: 20px 0px 20px 0px;">
             <span class="text-secondary">Insider Champions League</span>
         </div>
-        <league-teams></league-teams>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-import LeagueTeams from './components/LeagueTeams';
 
-export default {
-    components: {
-        LeagueTeams
-    }
-}
+export default {}
 </script>
