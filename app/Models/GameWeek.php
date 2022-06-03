@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\GameMatch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,11 @@ class GameWeek extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function matches()
+    {
+        return $this->hasMany(GameMatch::class);
+    }
     
     /*
     |--------------------------------------------------------------------------
