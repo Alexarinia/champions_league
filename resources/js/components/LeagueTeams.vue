@@ -19,14 +19,16 @@
             </div>
 
             <div class="flex justify-end font-bold space-x-4 text-2xl border-t border-gray-100 px-5 py-4">
-                <div><!-- button --></div>
+                <div>
+                    <button type="button">Generate fixtures</button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { getLeagueTeams } from '../store/fetchData';
+import { getLeagueTeams } from '@/store/fetchData';
 
 export default {
     data() {

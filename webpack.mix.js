@@ -12,14 +12,8 @@ const mix = require('laravel-mix');
  */
 
 var path = require('path');
-mix.webpackConfig({
-    resolve: {
-      modules: [
-        path.resolve(__dirname),
-        path.resolve('./node_modules/'),
-        path.resolve('./resources/')
-      ]
-    }
+mix.alias({
+  '@': path.join(__dirname, 'resources/js')
 });
 
 mix.js('resources/js/app.js', 'public/js').vue()
