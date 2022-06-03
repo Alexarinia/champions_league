@@ -20,7 +20,9 @@
 
             <div class="flex justify-end font-bold space-x-4 text-2xl border-t border-gray-100 px-5 py-4">
                 <div>
-                    <button type="button">Generate fixtures</button>
+                    <router-link :to="{name: 'fixtures' }">
+                        Generate fixtures
+                    </router-link>
                 </div>
             </div>
         </div>
