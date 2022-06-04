@@ -6,6 +6,8 @@ use App\Models\GameMatch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+
 
 class GameWeek extends Model
 {
@@ -29,9 +31,43 @@ class GameWeek extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Return true if all matches in the week are finished
+     * 
+     * @return bool
+     */
     public function isFinished(): bool
     {
         return $this->matches->where('finished', 0)->count() > 0;
+    }
+
+    /**
+     * Returns all unfinished matches of the week
+     * 
+     * @return Collection
+     */
+    public function getUnfinishedMatches(): Collection
+    {
+        return $this->matches->filter(function($match) {
+            return ! $match->isFinished();
+        });
+    }
+
+    /**
+     * Plays all unfinished matches of the week
+     * 
+     * @return int
+     */
+    public function playAllMatches(): int
+    {
+        $counter = 0;
+        
+        foreach($this->getUnfinishedMatches() as $match) {
+            $match->finish();
+            $counter++;
+        }
+
+        return $counter;
     }
 
     /**

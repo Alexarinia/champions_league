@@ -37,6 +37,10 @@ export async function generateFixtures() {
   return await sendRequest('/api/matches/generate', 'POST');
 }
 
+export async function playCurrentWeek() {
+  return await sendRequest('/api/weeks/play', 'POST');
+}
+
 function handleError(error) {
   let text = 'Something went wrong';
 

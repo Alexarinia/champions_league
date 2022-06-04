@@ -19,4 +19,9 @@ class GameWeekController extends Controller
     {
         return new GameWeekResource(GameWeek::getCurrentWeek());
     }
+
+    public function playGameWeek()
+    {
+        return GameWeek::getCurrentWeek()->playAllMatches();
+    }
 }
