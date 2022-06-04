@@ -20,9 +20,9 @@
 
             <div class="flex justify-end font-bold space-x-4 text-2xl border-t border-gray-100 px-5 py-4">
                 <div>
-                    <router-link :to="{name: 'fixtures' }">
+                    <button type="button" @click="generateFixtures">
                         Generate fixtures
-                    </router-link>
+                    </button>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getLeagueTeams } from '@/store/fetchData';
+import { generateFixtures, getLeagueTeams } from '@/store/fetchData';
 
 export default {
     data() {
@@ -39,6 +39,19 @@ export default {
         };
     },
     methods: {
+        async generateFixtures() {
+            const fixturesCount = await generateFixtures();
+            if(fixturesCount) {
+                this.$notify({
+                    group: 'success',
+                    title: 'Success',
+                    text: `Generated ${fixturesCount} matches`,
+                    type: 'success',
+                });
+
+                this.$router.push({ name: 'fixtures' });
+            }
+        },
         async loadTeams() {
             const teams = await getLeagueTeams();
             this.teams = teams.data ?? [];
