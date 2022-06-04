@@ -8,14 +8,14 @@ use App\Models\Team;
 class FinishMatchService
 {
     protected $goals_probabilities = [
-        0 => 25,
-        1 => 25,
-        2 => 20,
-        3 => 10,
-        4 => 10,
-        5 => 5,
-        6 => 3,
-        7 => 2,
+        0 => 20,
+        1 => 30,
+        2 => 30,
+        3 => 7,
+        4 => 6,
+        5 => 4,
+        6 => 2,
+        7 => 1,
     ];
 
     public function finishMatch(GameMatch $match)
@@ -92,12 +92,13 @@ class FinishMatchService
      */
     private function calculateGoals(string $winner): array
     {
-        $winner_goals = $this->getRandomGoals();
 
         if($winner === 'draw') {
+            $winner_goals = $this->getRandomGoals();
             $loser_goals = $winner_goals;
         } else {
-            $loser_goals = $this->getRandomGoals($winner_goals);
+            $winner_goals = $this->getRandomGoals(1);
+            $loser_goals = $this->getRandomGoals(null, $winner_goals);
         }
 
         $goals = [
@@ -115,11 +116,14 @@ class FinishMatchService
      * 
      * @return int
      */
-    private function getRandomGoals(?int $max = null): int
+    private function getRandomGoals(?int $min = null, ?int $max = null): int
     {
         $goals_array = [];
 
         foreach($this->goals_probabilities as $count => $chance) {
+            if(! is_null($min) && $count < $min) {
+                continue;
+            }
             if(! is_null($max) && $count === $max) {
                 break;
             }
