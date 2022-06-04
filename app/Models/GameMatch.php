@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\GameWeek;
 use App\Models\Team;
+use App\Services\FinishMatchService;
 use App\Services\FixtureGenerateService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,11 +22,20 @@ class GameMatch extends Model
 
     protected $table = 'game_matches';
 
+    protected $finishMatchService = null;
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+    public function __construct($attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->finishMatchService = new FinishMatchService;
+    }
 
     public function getHost()
     {
@@ -44,6 +54,11 @@ class GameMatch extends Model
     public function isFinished(): bool
     {
         return $this->finished === 1;
+    }
+
+    public function finish()
+    {
+        return $this->finishMatchService->finishMatch($this);
     }
     
     public static function generateFixtures()
