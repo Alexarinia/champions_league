@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\GameWeek;
 use App\Models\Team;
 use App\Services\FixtureGenerateService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -71,6 +72,16 @@ class GameMatch extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
+
+    public function scopeFinished(Builder $query)
+    {
+        return $query->where('finished', 1);
+    }
+
+    public function scopeUnfinished(Builder $query)
+    {
+        return $query->where('finished', 0);
+    }
     
     /*
     |--------------------------------------------------------------------------

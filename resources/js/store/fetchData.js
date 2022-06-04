@@ -29,6 +29,10 @@ export async function getLeagueWeeks() {
   return await sendRequest('/api/weeks');
 }
 
+export async function getCurrentWeek() {
+  return await sendRequest('/api/weeks/current');
+}
+
 export async function generateFixtures() {
   return await sendRequest('/api/matches/generate', 'POST');
 }

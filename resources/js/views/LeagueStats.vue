@@ -1,11 +1,13 @@
-<template class="antialiased bg-gray-100 text-gray-600 h-screen px-4" x-data="app">
-    <div class="flex flex-col justify-center h-full" v-if="weeks">
-        <league-stats />
-        <league-week v-for="week in weeks" :week="week" :key="week.id" />
-        <league-predictions />
-        Play all weeks
-        Play next week
-        Reset data
+<template>
+    <div class="p-4" x-data="app">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center h-full">
+            <league-stats />
+            <league-week v-if="currentWeek" :week="currentWeek" />
+            <league-predictions />
+            Play all weeks
+            Play next week
+            Reset data
+        </div>
     </div>
 </template>
 
@@ -13,12 +15,12 @@
 import LeaguePredictions from '@/components/Predictions/LeaguePredictions.vue';
 import LeagueStats from '@/components/Stats/LeagueStats.vue';
 import LeagueWeek from '@/components/Weeks/LeagueWeek.vue';
-import { getLeagueWeeks } from '@/store/fetchData';
+import { getCurrentWeek } from '@/store/fetchData';
 
 export default {
     data() {
         return {
-            weeks: [],
+            currentWeek: null,
         };
     },
     components: {
@@ -27,13 +29,14 @@ export default {
         LeagueWeek
     },
     methods: {
-        async loadWeeks() {
-            const weeks = await getLeagueWeeks();
-            this.weeks = weeks.data ?? [];
+        async loadCurrentWeek() {
+            const week = await getCurrentWeek();
+
+            this.currentWeek = week.data ?? null;
         }
     },
     mounted() {
-        this.loadWeeks();
+        this.loadCurrentWeek();
     }
 }
 </script>
