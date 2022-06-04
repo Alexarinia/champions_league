@@ -11,23 +11,19 @@
                     <table class="table-auto w-full" v-if="week.matches.data">
                         <tbody class="text-sm divide-y divide-gray-100">
                             <tr v-for="match in week.matches.data" :key="match.id">
-                                <td class="p-2">
-                                    {{ match.host.name }} {{ match.finished ? match.host.goals : '' }} - {{ match.finished ? match.guest.goals : '' }} {{ match.guest.name }}
+                                <td class="p-2 flex flex-row items-center">
+                                    <div class="text-xs w-2/5 text-right">{{ match.host.name }} </div>
+                                    <div class="w-[60px] text-center">
+                                        <span class="font-semibold ml-3">{{ match.finished ? match.host.goals : '' }}</span>
+                                        <span> - </span>
+                                        <span class="font-semibold mr-3">{{ match.finished ? match.guest.goals : '' }}</span>
+                                    </div>
+                                    <div class="text-xs w-2/5 text-left"> {{ match.guest.name }}</div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <!--
-                <div class="flex justify-end font-bold space-x-4 text-2xl border-t border-gray-100 px-5 py-4">
-                    <div>
-                        <router-link :to="{name: 'fixtures' }">
-                            Generate fixtures
-                        </router-link>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
     </div>
