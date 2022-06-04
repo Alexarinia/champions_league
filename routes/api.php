@@ -25,6 +25,7 @@ Route::group(['prefix' => 'weeks'], function () {
     Route::get('/', [GameWeekController::class, 'getGameWeeksList']);
     Route::get('/current', [GameWeekController::class, 'getCurrentGameWeek']);
     Route::post('/play', [GameWeekController::class, 'playGameWeek']);
+    Route::post('/reset', [GameWeekController::class, 'resetAllMatches']);
 });
 
 Route::group(['prefix' => 'matches'], function () {

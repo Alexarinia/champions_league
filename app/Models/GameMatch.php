@@ -37,31 +37,74 @@ class GameMatch extends Model
         $this->finishMatchService = new FinishMatchService;
     }
 
-    public function getHost()
+    /**
+     * Gets host team
+     * 
+     * @return Team
+     */
+    public function getHost(): Team
     {
         return $this->teams->where(function ($team) {
             return $team->pivot->host === 1;
         })->first();
     }
 
-    public function getGuest()
+    /**
+     * Gets guest team
+     * 
+     * @return Team
+     */
+    public function getGuest(): Team
     {
         return $this->teams->where(function ($team) {
             return $team->pivot->host === 0;
         })->first();
     }
 
+    /**
+     * Returns true if match is finished
+     * 
+     * @return bool
+     */
     public function isFinished(): bool
     {
         return $this->finished === 1;
     }
 
-    public function finish()
+    /**
+     * Counts goals and winner, finish the match
+     * 
+     * @return array
+     */
+    public function finish(): array
     {
         return $this->finishMatchService->finishMatch($this);
     }
+
+    /**
+     * Reset match progress
+     * 
+     * @return void
+     */
+    public function resetProgress(): void
+    {
+        $this->finished = 0;
+        $this->save();
+
+        $this->teams()->updateExistingPivot($this->getHost()->id, [
+            'goals' => null,
+        ]);
+        $this->teams()->updateExistingPivot($this->getGuest()->id, [
+            'goals' => null,
+        ]);
+    }
     
-    public static function generateFixtures()
+    /**
+     * Generates all fixtures for game weeks
+     * 
+     * @return int
+     */
+    public static function generateFixtures(): int
     {
         return FixtureGenerateService::generateFixtures();
     }

@@ -30,4 +30,9 @@ class GameWeekController extends Controller
 
         return 0;
     }
+
+    public function resetAllMatches()
+    {
+        return GameWeek::resetAllWeeks();
+    }
 }

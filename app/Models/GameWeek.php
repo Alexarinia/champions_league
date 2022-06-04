@@ -54,6 +54,18 @@ class GameWeek extends Model
     }
 
     /**
+     * Returns all finished matches of the week
+     * 
+     * @return Collection
+     */
+    public function getFinishedMatches(): Collection
+    {
+        return $this->matches->filter(function($match) {
+            return $match->isFinished();
+        });
+    }
+
+    /**
      * Plays all unfinished matches of the week
      * 
      * @return int
@@ -64,6 +76,23 @@ class GameWeek extends Model
         
         foreach($this->getUnfinishedMatches() as $match) {
             $match->finish();
+            $counter++;
+        }
+
+        return $counter;
+    }
+
+    /**
+     * Resets all matches of the week
+     * 
+     * @return int
+     */
+    public function resetAllMatches(): int
+    {
+        $counter = 0;
+        
+        foreach($this->getFinishedMatches() as $match) {
+            $match->resetProgress();
             $counter++;
         }
 
@@ -86,12 +115,33 @@ class GameWeek extends Model
         return $last_week;
     }
 
+    /**
+     * Plays all unfinished matches of all unfinished weeks
+     * 
+     * @return int
+     */
     public static function playAllWeeks(): int
     {
         $counter = 0;
         
         foreach(static::activeWeeks()->get() as $week) {
             $counter += $week->playAllMatches();
+        }
+
+        return $counter;
+    }
+
+    /**
+     * Resets all matches of all weeks
+     * 
+     * @return int
+     */
+    public static function resetAllWeeks(): int
+    {
+        $counter = 0;
+        
+        foreach(static::all() as $week) {
+            $counter += $week->resetAllMatches();
         }
 
         return $counter;

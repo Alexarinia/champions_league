@@ -1,6 +1,6 @@
 import { notify } from "@kyvg/vue3-notification";
 
-async function sendRequest(url, method = 'GET', params = {}) {
+async function sendRequest(url, method = 'GET', params = null) {
     console.log(url);
     let fetchBody = null;
     if(params) {
@@ -54,6 +54,10 @@ export async function playAllWeeks() {
   const params = { all: true };
 
   return await sendRequest('/api/weeks/play', 'POST', params);
+}
+
+export async function resetAllWeeks() {
+  return await sendRequest('/api/weeks/reset', 'POST');
 }
 
 function handleError(error) {

@@ -12,7 +12,9 @@
             <button type="button" @click="proceedCurrentWeek" class="rounded bg-slate-400 py-2 px-4 text-white">
                 Play next week
             </button>
-            Reset data
+            <button type="button" @click="resetAllWeeks" class="rounded bg-red-700 py-2 px-4 text-white">
+                Reset data
+            </button>
         </div>
     </div>
 </template>
@@ -21,7 +23,7 @@
 import LeaguePredictions from '@/components/Predictions/LeaguePredictions.vue';
 import LeagueStats from '@/components/Stats/LeagueStats.vue';
 import LeagueWeek from '@/components/Weeks/LeagueWeek.vue';
-import { getCurrentWeek, playAllWeeks, playCurrentWeek } from '@/store/fetchData';
+import { getCurrentWeek, playAllWeeks, playCurrentWeek, resetAllWeeks } from '@/store/fetchData';
 
 export default {
     data() {
@@ -67,7 +69,21 @@ export default {
 
                 this.loadCurrentWeek();
             }
-        }
+        },
+        async resetAllWeeks() {
+            const matchesCount = await resetAllWeeks();
+
+            if(matchesCount) {
+                this.$notify({
+                    group: 'success',
+                    title: 'Success',
+                    text: `${matchesCount} matches was reset`,
+                    type: 'success',
+                });
+
+                this.$router.push({ name: 'fixtures' });
+            }
+        },
     },
     mounted() {
         this.loadCurrentWeek();
