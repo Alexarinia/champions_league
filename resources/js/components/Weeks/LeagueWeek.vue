@@ -11,7 +11,7 @@
                     <tbody class="text-sm divide-y divide-gray-100">
                         <tr v-for="match in week.matches.data" :key="match.id">
                             <td class="p-2">
-                                {{ match.host.name }} {{ match.host.goals }} - {{ match.guest.goals }} {{ match.guest.name }}
+                                {{ match.host.name }} {{ match.finished ? match.host.goals : '' }} - {{ match.finished ? match.guest.goals : '' }} {{ match.guest.name }}
                             </td>
                         </tr>
                     </tbody>

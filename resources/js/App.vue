@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container m-auto">
         <div class="text-center" style="margin: 20px 0px 20px 0px;">
             <span class="text-secondary">Insider Champions League</span>
         </div>

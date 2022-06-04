@@ -1,6 +1,8 @@
-<template class="antialiased bg-gray-100 text-gray-600 h-screen px-4" x-data="app">
-    <div class="flex flex-col justify-center h-full" v-if="weeks">
-        <league-week v-for="week in weeks" :week="week" :key="week.id" />
+<template>
+    <div class="antialiased bg-gray-100 text-gray-600 w-full p-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center h-full" v-if="weeks">
+            <league-week v-for="week in weeks" :week="week" :key="week.id" />
+        </div>
         <router-link :to="{ name: 'week-stats' }">Start Simulation</router-link>
     </div>
 </template>

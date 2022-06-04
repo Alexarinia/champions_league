@@ -175,8 +175,8 @@ class FixtureGenerateService
                 $host = $teams->where('id', $matches[0])->first();
                 $guest = $teams->where('id', $matches[1])->first();
 
-                $new_match->teams()->attach($host, ['host' => 1]);
-                $new_match->teams()->attach($guest, ['host' => 0]);
+                $new_match->teams()->attach($host, ['host' => 1, 'goals' => null]);
+                $new_match->teams()->attach($guest, ['host' => 0, 'goals' => null]);
             }
         }
 
