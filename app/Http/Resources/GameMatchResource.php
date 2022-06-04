@@ -18,8 +18,9 @@ class GameMatchResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'host' => new TeamResource($this->host()),
-            'guest' => new TeamResource($this->guest()),
+            'host' => new TeamResource($this->getHost()),
+            'guest' => new TeamResource($this->getGuest()),
+            'finished' => $this->isFinished(),
         ];
     }
 }

@@ -1,7 +1,11 @@
-<template class="antialiased bg-gray-100 text-gray-600 h-screen px-4" x-data="app">
-    <div class="flex flex-col justify-center h-full" v-if="weeks">
-        <league-week v-for="week in weeks" :week="week" :key="week.id" />
-        <router-link :to="{ name: 'week-stats' }">Start Simulation</router-link>
+<template>
+    <div class="p-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center h-full" v-if="weeks">
+            <league-week v-for="week in weeks" :week="week" :key="week.id" />
+        </div>
+        <div class="flex flex-row justify-center">
+            <router-link class="rounded bg-slate-400 py-2 px-4 text-white" :to="{ name: 'week-stats' }">Start Simulation</router-link>
+        </div>
     </div>
 </template>
 
