@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GameWeek\GameWeekPlayAllRequest;
 use App\Http\Resources\GameWeekCollection;
 use App\Http\Resources\GameWeekResource;
 use App\Models\GameWeek;
-use Illuminate\Http\Request;
 
 class GameWeekController extends Controller
 {
@@ -20,8 +20,14 @@ class GameWeekController extends Controller
         return new GameWeekResource(GameWeek::getCurrentWeek());
     }
 
-    public function playGameWeek()
+    public function playGameWeek(GameWeekPlayAllRequest $request)
     {
-        return GameWeek::getCurrentWeek()->playAllMatches();
+        if($request->has('all') && $request->all == true) {
+            return GameWeek::playAllWeeks();
+        } else {
+            return GameWeek::getCurrentWeek()->playAllMatches();
+        }
+
+        return 0;
     }
 }

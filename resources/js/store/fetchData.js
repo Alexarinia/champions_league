@@ -2,11 +2,20 @@ import { notify } from "@kyvg/vue3-notification";
 
 async function sendRequest(url, method = 'GET', params = {}) {
     console.log(url);
+    let fetchBody = null;
+    if(params) {
+      fetchBody = JSON.stringify(params);
+    }
 
     return await fetch(url, {
-      method: method ,
-      data: params
-    }).then((r) => r.json())
+      body: fetchBody,
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": window.csrf_token,
+      },
+      method: method,
+    })
+    .then((r) => r.json())
     .then(function(result) {
       console.log(result);
 
@@ -39,6 +48,12 @@ export async function generateFixtures() {
 
 export async function playCurrentWeek() {
   return await sendRequest('/api/weeks/play', 'POST');
+}
+
+export async function playAllWeeks() {
+  const params = { all: true };
+
+  return await sendRequest('/api/weeks/play', 'POST', params);
 }
 
 function handleError(error) {

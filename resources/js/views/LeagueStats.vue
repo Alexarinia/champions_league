@@ -6,7 +6,9 @@
             <league-predictions />
         </div>
         <div class="flex flex-row gap-4 justify-between h-full">
-            Play all weeks
+            <button type="button" @click="proceedAllWeeks" class="rounded bg-slate-400 py-2 px-4 text-white">
+                Play all weeks
+            </button>
             <button type="button" @click="proceedCurrentWeek" class="rounded bg-slate-400 py-2 px-4 text-white">
                 Play next week
             </button>
@@ -19,7 +21,7 @@
 import LeaguePredictions from '@/components/Predictions/LeaguePredictions.vue';
 import LeagueStats from '@/components/Stats/LeagueStats.vue';
 import LeagueWeek from '@/components/Weeks/LeagueWeek.vue';
-import { getCurrentWeek, playCurrentWeek } from '@/store/fetchData';
+import { getCurrentWeek, playAllWeeks, playCurrentWeek } from '@/store/fetchData';
 
 export default {
     data() {
@@ -37,6 +39,20 @@ export default {
             const week = await getCurrentWeek();
 
             this.currentWeek = week.data ?? null;
+        },
+        async proceedAllWeeks() {
+            const matchesCount = await playAllWeeks();
+
+            if(matchesCount) {
+                this.$notify({
+                    group: 'success',
+                    title: 'Success',
+                    text: `${matchesCount} matches was finished`,
+                    type: 'success',
+                });
+
+                this.loadCurrentWeek();
+            }
         },
         async proceedCurrentWeek() {
             const matchesCount = await playCurrentWeek();

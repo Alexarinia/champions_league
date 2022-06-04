@@ -12,6 +12,9 @@
 
     <div id="app"></div>
     
+<script type="text/javascript">
+    window.csrf_token = '{{ csrf_token() }}';
+</script>
 <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
 </body>
 </html>

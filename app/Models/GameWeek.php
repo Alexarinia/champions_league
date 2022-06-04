@@ -77,7 +77,24 @@ class GameWeek extends Model
      */
     public static function getCurrentWeek(): static
     {
-        return static::activeWeeks()->first();
+        $last_week = static::activeWeeks()->first();
+
+        if(! $last_week) {
+            $last_week = static::orderBy('week_order', 'desc')->first();
+        }
+        
+        return $last_week;
+    }
+
+    public static function playAllWeeks(): int
+    {
+        $counter = 0;
+        
+        foreach(static::activeWeeks()->get() as $week) {
+            $counter += $week->playAllMatches();
+        }
+
+        return $counter;
     }
     
     /*
