@@ -11,12 +11,22 @@
                     <tbody class="text-sm divide-y divide-gray-100">
                         <tr v-for="match in week.matches.data" :key="match.id">
                             <td class="p-2">
-                                {{ match.host.name }} {{ match.host.goals }} : {{ match.guest.goals }} {{ match.guest.name }}
+                                {{ match.host.name }} {{ match.host.goals }} - {{ match.guest.goals }} {{ match.guest.name }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <!--
+            <div class="flex justify-end font-bold space-x-4 text-2xl border-t border-gray-100 px-5 py-4">
+                <div>
+                    <router-link :to="{name: 'fixtures' }">
+                        Generate fixtures
+                    </router-link>
+                </div>
+            </div>
+            -->
         </div>
     </div>
 </template>
