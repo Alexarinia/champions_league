@@ -1,5 +1,5 @@
-import LeagueTeams from './components/LeagueTeams.vue';
-import LeagueFixtures from './components/Fixtures/LeagueFixtures.vue';
+import LeagueTeams from '@/views/LeagueTeams.vue';
+import LeagueFixtures from '@/views/LeagueFixtures.vue';
 
 export const routes = [
     {
