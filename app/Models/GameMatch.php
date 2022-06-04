@@ -74,7 +74,7 @@ class GameMatch extends Model
     
     public function teams()
     {
-        return $this->belongsToMany(Team::class, 'game_match_team', 'team_id', 'game_match_id')->withPivot(['host', 'goals']);
+        return $this->belongsToMany(Team::class, 'game_match_team', 'game_match_id', 'team_id')->withPivot(['host', 'goals']);
     }
 
     public function week()

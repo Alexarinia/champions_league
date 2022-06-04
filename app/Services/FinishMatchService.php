@@ -18,15 +18,23 @@ class FinishMatchService
         7 => 1,
     ];
 
-    public function finishMatch(GameMatch $match)
+    /**
+     * Calculate goals and save match result
+     * 
+     * @param GameMatch $match
+     * 
+     * @return array
+     */
+    public function finishMatch(GameMatch $match): array
     {
         $host = $match->getHost();
         $guest = $match->getGuest();
 
         $weights = $this->countWeights($host, $guest);
         $winner = $this->calculateMatchWinner($weights);
-        $weights['winner'] = $winner;
-        $weights['goals'] = $this->calculateGoals($winner);
+        $goals = $this->calculateGoals($winner);
+
+        $this->saveCalculatedResults($match, $goals);
 
         return $weights;
     }
@@ -48,11 +56,9 @@ class FinishMatchService
         $draw_chance = (100 - $diff) / 2;
 
         $weights = [
-            'host_power' => $host->team_power,
             'host' => $host_chance - ($draw_chance / 2),
             'draw' => $draw_chance,
             'guest' => $guest_chance - ($draw_chance / 2),
-            'guest_power' => $guest->team_power,
         ];
 
         return $weights;
@@ -133,5 +139,26 @@ class FinishMatchService
         shuffle($goals_array);
 
         return array_pop($goals_array);
+    }
+
+    /**
+     * Save calculated goals and finish match
+     * 
+     * @param GameMatch $match
+     * @param array $goals
+     * 
+     * @return void
+     */
+    private function saveCalculatedResults(GameMatch $match, array $goals): void
+    {
+        $match->teams()->updateExistingPivot($match->getHost()->id, [
+            'goals' => $goals['host'],
+        ]);
+        $match->teams()->updateExistingPivot($match->getGuest()->id, [
+            'goals' => $goals['guest'],
+        ]);
+
+        $match->finished = 1;
+        $match->save();
     }
 }
