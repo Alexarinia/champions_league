@@ -4,6 +4,8 @@
             <span class="text-secondary">Insider Champions League</span>
         </div>
         <router-view></router-view>
+        <notifications group="error" />
+        <notifications group="success" />
     </div>
 </template>
 
