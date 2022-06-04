@@ -17,6 +17,10 @@ class GameWeek extends Model
     */
 
     protected $table = 'game_weeks';
+    protected $fillable = [
+        'name',
+        'week_order',
+    ];
     
     /*
     |--------------------------------------------------------------------------

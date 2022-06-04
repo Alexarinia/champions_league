@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\GameWeek;
 use App\Models\Team;
+use App\Services\FixtureGenerateService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,7 +29,6 @@ class GameMatch extends Model
     public function getHost()
     {
         return $this->teams->where(function ($team) {
-            logger($team->pivot);
             return $team->pivot->host === 1;
         })->first();
     }
@@ -45,6 +45,11 @@ class GameMatch extends Model
         return $this->finished === 1;
     }
     
+    public static function generateFixtures()
+    {
+        return FixtureGenerateService::generateFixtures();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 
 class GameWeekController extends Controller
 {
-    public function getGameWeeksList() {
+    public function getGameWeeksList()
+    {
         return new GameWeekCollection(GameWeek::all());
     }
 }
