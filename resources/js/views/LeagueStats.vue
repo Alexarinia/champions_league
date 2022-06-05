@@ -1,7 +1,7 @@
 <template>
     <div class="p-4" x-data="app">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center h-full">
-            <league-stats />
+            <league-stats :stats-loading="loading" />
             <league-week v-if="currentWeek" :week="currentWeek" />
             <league-predictions />
         </div>
@@ -32,6 +32,7 @@ export default {
     data() {
         return {
             currentWeek: null,
+            loading: false
         };
     },
     components: {
@@ -41,9 +42,11 @@ export default {
     },
     methods: {
         async loadCurrentWeek() {
+            this.loading = true;
             const week = await getCurrentWeek();
 
             this.currentWeek = week.data ?? null;
+            this.loading = false;
         },
         async proceedAllWeeks() {
             const matchesCount = await playAllWeeks();

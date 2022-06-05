@@ -43,6 +43,9 @@ import { getStatsTeams } from '@/store/fetchData';
 
 export default {
     name: 'LeagueStats',
+    props: {
+        statsLoading: Boolean
+    },
     data() {
         return {
             teams: []
@@ -63,6 +66,13 @@ export default {
     },
     mounted() {
         this.loadStatTeams();
+    },
+    watch: {
+        statsLoading(val) {
+            if(! val) {
+                this.loadStatTeams();
+            }
+        },
     }
 }
 </script>
