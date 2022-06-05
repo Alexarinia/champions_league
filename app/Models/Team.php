@@ -85,7 +85,6 @@ class Team extends Model
 
     public function getPredictionAttribute()
     {
-        logger('load prediction');
         return $this->statsWithPrediction['win_prediction_percent'] ?? 0;
     }
     

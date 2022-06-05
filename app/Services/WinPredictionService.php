@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class WinPredictionService
 {
-    
+
     protected static $weeks_left;
     protected static $cached_predictions = null;
 
@@ -21,7 +21,7 @@ class WinPredictionService
      * @return int
      */
     public static function getWinPredictionByTeam(int $team_id): int
-    {        
+    {
         return self::getWinPredictions()?->where('id', $team_id)?->first()?->calculated_prediction;
     }
 
@@ -31,14 +31,14 @@ class WinPredictionService
      * @return Collection
      */
     public static function getWinPredictions(): Collection
-    {        
-        if(! self::$cached_predictions) {
+    {
+        if (!self::$cached_predictions) {
 
             self::$cached_predictions = collect(Team::inRandomOrder()->first());
-            
+
             $weeks = GameWeek::all();
 
-            self::$weeks_left = $weeks->reject(function($week_item) {
+            self::$weeks_left = $weeks->reject(function ($week_item) {
                 return $week_item->isFinished();
             });
 
@@ -77,23 +77,28 @@ class WinPredictionService
         $max_points_possible = self::$weeks_left->count() * TeamStatsService::POINTS_PRICES['won'];
         $max_current_points = $teams->max('points');
         $possible_winners = [];
+        $teams_count = $teams->count();
 
-        foreach($teams as &$team) {
+        foreach ($teams as &$team) {
             $team->calculated_prediction = 0;
 
             // If team's points lag too big
-            if(($team->points + $max_points_possible) < $max_current_points) {
+            if (($team->points + $max_points_possible) < $max_current_points) {
                 continue;
             }
 
             // Count team winning percent based on its history
-            $win_proportion = 100 * $team->stats['won'] / ($team->stats['won'] + $team->stats['lost']);
+            if (($team->stats['played']) > 0) {
+                $win_proportion = 100 * ($team->stats['won'] + $team->stats['draw'] / 2 + 1) / ($team->stats['played']);
+            } else {
+                $win_proportion = 100 / $teams_count;
+            }
+
             $possible_winners[$team->id] = $win_proportion;
         }
 
         $win_proportion_sum = array_sum($possible_winners);
-        foreach($possible_winners as $pw_id => $pw_win_percent)
-        {
+        foreach ($possible_winners as $pw_id => $pw_win_percent) {
             $sum_part = ($pw_win_percent / $win_proportion_sum) * 100;
             $teams->where('id', $pw_id)->first()->calculated_prediction = $sum_part;
         }

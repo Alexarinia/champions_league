@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center h-full">
             <league-stats :stats-loading="loading" />
             <league-week v-if="currentWeek" :week="currentWeek" />
-            <league-predictions />
+            <league-predictions :stats-loading="loading" />
         </div>
         <div class="flex flex-row gap-4 justify-between h-full">
             <button type="button" @click="proceedAllWeeks" class="rounded bg-slate-400 py-2 px-4 text-white">

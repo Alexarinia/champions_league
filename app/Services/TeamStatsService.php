@@ -61,13 +61,14 @@ class TeamStatsService
             'draw' => $this->getDrawMatches()->count(),
             'lost' => 0,
             'goal_difference' => $this->getGoalDifference(),
+            'left' => $this->team->matches->count() - $this->matches->count(),
         ];
 
         $stats['lost'] = $stats['played'] - $stats['won'] - $stats['draw'];
 
         $stats['points'] = $this->countPoints($stats);
 
-        if($with_prediction && $stats['left'] < 4) {
+        if($with_prediction && $stats['left'] > 0) {
             $stats['win_prediction_percent'] = WinPredictionService::getWinPredictionByTeam($this->team->id);
         } elseif($with_prediction) {
             $stats['win_prediction_percent'] = 0;
