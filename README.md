@@ -1,64 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Champions League Simulation
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Install
+Clone project. Go to a project folder. Copy file `.env.example`, rename copy to `.env` and fill database settings if you wish. Run in terminal
+```
+./vendor/bin/sail up -d
+```
+First start may take a while. Then run
+```
+./vendor/bin/sail composer install
+./vendor/bin/sail npm i
+./vendor/bin/sail npm run prod
+./vendor/bin/sail artisan migrate
+```
+Open your browser and paste [http://localhost/](http://localhost/). Enjoy game simulation!
 
-## About Laravel
+## Task  
+Complete a simulation. In this simulation, there will be a group of football teams and the simulation will show match results and the league table. Task is to estimate the final league table.  
+There will be four teams in the league (teams have different strengths and the results of the matches are determined depending on the strengths of these selected teams).  
+Other rules in the league (scoring, points, goal difference, etc.) will be the same as the rules of the Premier League.  
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Completion  
+I've used Laravel 9 with Sail as Docker environment. MySQL was chosen as database, Vue3.js - as a front-end.  
+Almost all backend/frontend connections go via API endpoints. Major routes are located in `routes/api.php`.  
+Due to small size of project I didn't use Vuex and stayed for a few components with emitted events and common file with fetch functions.  
+I've build some complex formulas for simulation, but they are too simple to use in real life:  
+- Teams generation take place in TeamFactory, team power randomly sets from 10 to 100.  
+- Fixture generation meets teams with each other and doesn't repeat pairs. If it comes to a dead end (left only teams that has already played with each other) all week fixtures are regenerating.  
+- Match score is based on team strengh and is counting with probabilities of result.  
+- Predictions are based on team earned points and history of playing in current league.  
+Predictions and stats are refreshing after week playing. There is a possibility to create up to 20 unique teams. You can edit teams in `config/insider.php` file.   
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Utilities used  
+[Laravel 9](https://laravel.com/docs/9.x) - Laravel 9 backend framework
+[Vue.js](https://vuejs.org/) - Vue 3 framework  
+[Tailwind](https://tailwindcss.com/) - CSS-framework
+[Vue.js notifications](https://bestofvue.com/repo/kyvg-vue3-notification-vuejs-notification) - pop-up notifications    
+[Tailwind component](https://tailwindcomponents.com/component/manage-product-cart) - cards Tailwind ready component  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ToDo List  
+- [ ] Increase speed of generating. I've used Eloquent, but it created some recursions which slower the performance. Maybe raw database queries would make sitiation much better.  
+- [ ] Write automated tests. Due to limited time I've sacrificed them for a wider functionality. But tests are vital for stability of the system.  
+- [ ] More validation cases. Now only a little part of data goes through validation.  
+- [ ] Better probability formulas.  
+- [ ] More beutiful consistent design with good UX.  
+- [ ] Extend error handling.  
+- [ ] etc...
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
