@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'teams'], function () {
     Route::get('/', [TeamController::class, 'getTeamsList']);
     Route::get('/stats', [TeamController::class, 'getTeamsStatsList']);
+    Route::get('/predictions', [TeamController::class, 'getTeamsPredictionsList']);
 });
 
 Route::group(['prefix' => 'weeks'], function () {
