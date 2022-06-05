@@ -20,7 +20,7 @@ class TeamResource extends JsonResource
             'name' => $this->name,
             'stats' => $this->whenLoaded('matches', function() {
                 return [
-                    'points' => 0,
+                    'points' => $this->stats['points'],
                     'played' => $this->stats['played'],
                     'won' => $this->stats['won'],
                     'lost' => $this->stats['lost'],
