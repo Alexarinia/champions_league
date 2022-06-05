@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'teams'], function () {
     Route::get('/', [TeamController::class, 'getTeamsList']);
+    Route::post('/generate', [TeamController::class, 'generateTeams']);
     Route::get('/stats', [TeamController::class, 'getTeamsStatsList']);
     Route::get('/predictions', [TeamController::class, 'getTeamsPredictionsList']);
 });
@@ -33,4 +34,5 @@ Route::group(['prefix' => 'weeks'], function () {
 
 Route::group(['prefix' => 'matches'], function () {
     Route::post('/generate', [GameMatchController::class, 'generateFixtures']);
+    Route::get('/count', [GameMatchController::class, 'getFixturesCount']);
 });

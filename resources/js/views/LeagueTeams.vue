@@ -18,25 +18,29 @@
                 </table>
             </div>
 
-            <div class="flex justify-end font-bold space-x-4 text-2xl border-t border-gray-100 px-5 py-4">
-                <div>
-                    <router-link :to="{ name: 'fixtures' }">Proceed to ready fixtures</router-link>
-                    <button type="button" @click="generateFixtures">
-                        Generate fixtures
-                    </button>
-                </div>
+            <div class="flex justify-between space-x-4 px-5 py-4" v-if="teams">
+                <router-link v-if="fixturesCount > 0" class="rounded bg-slate-400 py-2 px-4 text-white inline-block" :to="{ name: 'fixtures' }">Proceed to ready fixtures</router-link>
+                <button v-if="fixturesCount === 0" class="rounded bg-green-700 py-2 px-4 text-white" type="button" @click="generateFixtures">
+                    Generate fixtures
+                </button>
+            </div>
+            <div class="flex justify-between space-x-4 px-5 py-4">
+                <button v-if="fixturesCount === 0" class="rounded bg-blue-700 py-2 px-4 text-white" type="button" @click="generateTeams">
+                    Generate teams
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { generateFixtures, getLeagueTeams } from '@/store/fetchData';
+import { generateFixtures, generateTeams, getFixturesCount, getLeagueTeams } from '@/store/fetchData';
 
 export default {
     data() {
         return {
-            teams: []
+            fixturesCount: null,
+            teams: null
         };
     },
     methods: {
@@ -53,12 +57,39 @@ export default {
                 this.$router.push({ name: 'fixtures' });
             }
         },
+        async generateTeams() {
+            const teamsCount = await generateTeams();
+            if(teamsCount) {
+                this.$notify({
+                    group: 'success',
+                    title: 'Success',
+                    text: `Generated ${teamsCount} teams`,
+                    type: 'success',
+                });
+
+                this.loadTeams();
+            }
+        },
+        isNumeric: function (n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        },
+        async loadFixturesCount() {
+            const fixturesCount = await getFixturesCount();
+
+            if(this.isNumeric(fixturesCount)) {
+                this.fixturesCount = fixturesCount;
+            }
+        },
         async loadTeams() {
             const teams = await getLeagueTeams();
-            this.teams = teams.data ?? [];
+
+            if(teams.data && teams.data.length) {
+                this.teams = teams.data ?? null;
+            }
         }
     },
     mounted() {
+        this.loadFixturesCount();
         this.loadTeams();
     }
 }

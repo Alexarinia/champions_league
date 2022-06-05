@@ -102,14 +102,15 @@ class GameWeek extends Model
     /**
      * Gets current game week
      * 
-     * @return static
+     * @return static|null
      */
-    public static function getCurrentWeek(): static
+    public static function getCurrentWeek(): ?static
     {
         $last_week = static::activeWeeks()->with('matches')->first();
 
         if(! $last_week) {
             $last_week = static::with('matches')->orderBy('week_order', 'desc')->first();
+            $last_week->append('finished');
         }
         
         return $last_week;
@@ -199,6 +200,11 @@ class GameWeek extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+
+    public function getFinishedAttribute()
+    {
+        return $this->isFinished();
+    }
     
     /*
     |--------------------------------------------------------------------------

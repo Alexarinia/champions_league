@@ -1,15 +1,26 @@
 <template>
     <div class="p-4" x-data="app">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center h-full">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center items-start h-full">
             <league-stats :stats-loading="loading" />
-            <league-week v-if="currentWeek" :week="currentWeek" />
+            <league-week class="p-0" v-if="currentWeek" :week="currentWeek" />
             <league-predictions :stats-loading="loading" />
         </div>
-        <div class="flex flex-row gap-4 justify-between h-full">
-            <button type="button" @click="proceedAllWeeks" class="rounded bg-slate-400 py-2 px-4 text-white">
+        <div class="flex flex-row gap-4 justify-between mt-3">
+            <router-link class="rounded bg-slate-400 py-2 px-4 text-white inline-block" :to="{ name: 'fixtures' }">
+                Show fixtures
+            </router-link>
+            <button type="button" 
+                    v-if="currentWeek" 
+                    @click="proceedAllWeeks"
+                    :disabled="currentWeek.finished"
+                    class="rounded bg-green-700 py-2 px-4 text-white disabled:opacity-75">
                 Play all weeks
             </button>
-            <button type="button" @click="proceedCurrentWeek" class="rounded bg-slate-400 py-2 px-4 text-white">
+            <button type="button"
+                    v-if="currentWeek"
+                    @click="proceedCurrentWeek"
+                    :disabled="currentWeek.finished"
+                    class="rounded bg-green-700 py-2 px-4 text-white disabled:opacity-75">
                 Play next week
             </button>
             <button type="button" @click="resetAllWeeks" class="rounded bg-red-700 py-2 px-4 text-white">
@@ -45,8 +56,14 @@ export default {
             this.loading = true;
             const week = await getCurrentWeek();
 
-            this.currentWeek = week.data ?? null;
+            if(week && week.data) {
+                this.currentWeek = week.data ?? null;
+            }
+
             this.loading = false;
+            if(! this.currentWeek) {
+                this.$router.push({ name: 'home' });
+            }
         },
         async proceedAllWeeks() {
             const matchesCount = await playAllWeeks();

@@ -17,6 +17,8 @@ class Team extends Model
     | GLOBAL VARIABLES 
     |-------------------------------------------------------------------------- 
     */
+    
+    const TEAMS_COUNT = 8;
 
     protected $table = 'teams';
 
@@ -43,6 +45,14 @@ class Team extends Model
     public function getStatsWithPrediction(): array
     {
         return $this->teamStatsService->getStats($this, true, true);
+    }
+
+    public static function regenerateTeams(): int
+    {
+        DB::table('teams')->delete();
+        static::factory()->count(self::TEAMS_COUNT)->create();
+
+        return self::TEAMS_COUNT;
     }
     
     /*
