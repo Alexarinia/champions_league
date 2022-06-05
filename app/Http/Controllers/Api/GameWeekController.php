@@ -17,7 +17,13 @@ class GameWeekController extends Controller
 
     public function getCurrentGameWeek()
     {
-        return new GameWeekResource(GameWeek::getCurrentWeek());
+        $current_week = GameWeek::getCurrentWeek();
+        
+        if($current_week) {
+            return new GameWeekResource($current_week);
+        }
+        
+        return null;
     }
 
     public function playGameWeek(GameWeekPlayAllRequest $request)

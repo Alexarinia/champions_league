@@ -16,7 +16,7 @@ import { getLeagueWeeks } from '@/store/fetchData';
 export default {
     data() {
         return {
-            weeks: [],
+            weeks: null,
         };
     },
     components: {
@@ -25,7 +25,14 @@ export default {
     methods: {
         async loadWeeks() {
             const weeks = await getLeagueWeeks();
-            this.weeks = weeks.data ?? [];
+            
+            if(weeks.data && weeks.data.length) {
+                this.weeks = weeks.data ?? null;
+            }
+
+            if(! this.weeks) {
+                this.$router.push({ name: 'home' });
+            }
         }
     },
     mounted() {

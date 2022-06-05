@@ -48,8 +48,14 @@ export default {
             this.loading = true;
             const week = await getCurrentWeek();
 
-            this.currentWeek = week.data ?? null;
+            if(week && week.data && week.data.length) {
+                this.currentWeek = week.data ?? null;
+            }
+
             this.loading = false;
+            if(! this.currentWeek) {
+                this.$router.push({ name: 'home' });
+            }
         },
         async proceedAllWeeks() {
             const matchesCount = await playAllWeeks();

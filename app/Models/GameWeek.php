@@ -102,9 +102,9 @@ class GameWeek extends Model
     /**
      * Gets current game week
      * 
-     * @return static
+     * @return static|null
      */
-    public static function getCurrentWeek(): static
+    public static function getCurrentWeek(): ?static
     {
         $last_week = static::activeWeeks()->with('matches')->first();
 
