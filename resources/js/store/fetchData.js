@@ -1,7 +1,6 @@
 import { notify } from "@kyvg/vue3-notification";
 
 async function sendRequest(url, method = 'GET', params = null) {
-    console.log(url);
     let fetchBody = null;
     if(params) {
       fetchBody = JSON.stringify(params);
@@ -17,8 +16,6 @@ async function sendRequest(url, method = 'GET', params = null) {
     })
     .then((r) => r.json())
     .then(function(result) {
-      console.log(result);
-
       if(result.error) {
         handleError(result);
         return null;
