@@ -23,4 +23,9 @@ class TeamController extends Controller
 
         return new TeamCollection($teams);
     }
+
+    public function generateTeams()
+    {
+        return Team::regenerateTeams();
+    }
 }

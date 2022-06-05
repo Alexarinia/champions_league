@@ -38,6 +38,14 @@ export async function generateFixtures() {
   return await sendRequest('/api/matches/generate', 'POST');
 }
 
+export async function generateTeams() {
+  return await sendRequest('/api/teams/generate', 'POST');
+}
+
+export async function getFixturesCount() {
+  return await sendRequest('/api/matches/count');
+}
+
 export async function getLeagueTeams() {
     return await sendRequest('/api/teams');
 }

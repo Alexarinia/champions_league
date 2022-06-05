@@ -6,6 +6,9 @@
             <league-predictions :stats-loading="loading" />
         </div>
         <div class="flex flex-row gap-4 justify-between mt-3">
+            <router-link class="rounded bg-slate-400 py-2 px-4 text-white inline-block" :to="{ name: 'fixtures' }">
+                Show fixtures
+            </router-link>
             <button type="button" @click="proceedAllWeeks" class="rounded bg-green-700 py-2 px-4 text-white">
                 Play all weeks
             </button>

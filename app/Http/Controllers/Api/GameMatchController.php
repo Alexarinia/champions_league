@@ -12,4 +12,9 @@ class GameMatchController extends Controller
     {
         return GameMatch::generateFixtures();
     }
+
+    public function getFixturesCount()
+    {
+        return GameMatch::count();
+    }
 }
