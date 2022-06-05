@@ -30,6 +30,14 @@ async function sendRequest(url, method = 'GET', params = null) {
     });
 }
 
+export async function getCurrentWeek() {
+  return await sendRequest('/api/weeks/current');
+}
+
+export async function generateFixtures() {
+  return await sendRequest('/api/matches/generate', 'POST');
+}
+
 export async function getLeagueTeams() {
     return await sendRequest('/api/teams');
 }
@@ -38,12 +46,8 @@ export async function getLeagueWeeks() {
   return await sendRequest('/api/weeks');
 }
 
-export async function getCurrentWeek() {
-  return await sendRequest('/api/weeks/current');
-}
-
-export async function generateFixtures() {
-  return await sendRequest('/api/matches/generate', 'POST');
+export async function getStatsTeams() {
+  return await sendRequest('/api/teams/stats');
 }
 
 export async function playCurrentWeek() {
@@ -58,6 +62,10 @@ export async function playAllWeeks() {
 
 export async function resetAllWeeks() {
   return await sendRequest('/api/weeks/reset', 'POST');
+}
+
+export async function resetAllWeeksAndFixtures() {
+  return await sendRequest('/api/weeks/reset-all', 'POST');
 }
 
 function handleError(error) {

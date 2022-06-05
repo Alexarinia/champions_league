@@ -19,7 +19,9 @@ class GameWeekResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'order' => $this->week_order,
-            'matches' => new GameMatchCollection($this->matches),
+            'matches' => $this->whenLoaded('matches', function() {
+                return new GameMatchCollection($this->matches);
+            }),
         ];
     }
 }

@@ -12,4 +12,8 @@ class TeamController extends Controller
     public function getTeamsList() {
         return new TeamCollection(Team::all());
     }
+
+    public function getTeamsStatsList() {
+        return new TeamCollection(Team::with('matches')->get());
+    }
 }

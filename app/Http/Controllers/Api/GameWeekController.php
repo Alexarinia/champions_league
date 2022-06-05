@@ -12,7 +12,7 @@ class GameWeekController extends Controller
 {
     public function getGameWeeksList()
     {
-        return new GameWeekCollection(GameWeek::orderBy('week_order')->get());
+        return new GameWeekCollection(GameWeek::with('matches')->orderBy('week_order')->get());
     }
 
     public function getCurrentGameWeek()
@@ -34,5 +34,10 @@ class GameWeekController extends Controller
     public function resetAllMatches()
     {
         return GameWeek::resetAllWeeks();
+    }
+
+    public function resetAllMatchesAndFixtures()
+    {
+        return GameWeek::resetAllMatchesAndFixtures();
     }
 }

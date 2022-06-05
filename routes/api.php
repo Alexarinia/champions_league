@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'teams'], function () {
     Route::get('/', [TeamController::class, 'getTeamsList']);
+    Route::get('/stats', [TeamController::class, 'getTeamsStatsList']);
 });
 
 Route::group(['prefix' => 'weeks'], function () {
@@ -26,6 +27,7 @@ Route::group(['prefix' => 'weeks'], function () {
     Route::get('/current', [GameWeekController::class, 'getCurrentGameWeek']);
     Route::post('/play', [GameWeekController::class, 'playGameWeek']);
     Route::post('/reset', [GameWeekController::class, 'resetAllMatches']);
+    Route::post('/reset-all', [GameWeekController::class, 'resetAllMatchesAndFixtures']);
 });
 
 Route::group(['prefix' => 'matches'], function () {
