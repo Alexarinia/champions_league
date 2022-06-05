@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\GameMatchCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TeamResource extends JsonResource
@@ -17,6 +18,16 @@ class TeamResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'stats' => $this->whenLoaded('matches', function() {
+                return [
+                    'points' => 0,
+                    'played' => $this->stats['played'],
+                    'won' => $this->stats['won'],
+                    'lost' => $this->stats['lost'],
+                    'draw' => $this->stats['draw'],
+                    'goal_difference' => $this->stats['goal_difference'],
+                ];
+            }),
             'goals' => $this->whenPivotLoaded('game_match_team', function () {
                 return $this->pivot->goals;
             }),
