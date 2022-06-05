@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-gray-100">
-                        <tr v-for="team in teams" :key="team.id">
+                        <tr v-for="team in orderedTeams" :key="team.id">
                             <td class="p-2 text-xs">
                                 {{ team.name }}
                             </td>
@@ -47,6 +47,13 @@ export default {
         return {
             teams: []
         };
+    },
+    computed: {
+        orderedTeams: function () {
+            this.teams = _.orderBy(this.teams, 'stats.goal_difference', 'desc');
+
+            return _.orderBy(this.teams, 'stats.points', 'desc');
+        }
     },
     methods: {
         async loadStatTeams() {
