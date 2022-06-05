@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Team;
+use App\Services\WinPredictionService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -35,11 +36,11 @@ class TeamStatsService
      * 
      * @return array
      */
-    public function getStats(Team $team, bool $reload = false): array
+    public function getStats(Team $team, bool $with_prediction = false, bool $reload = false): array
     {
         if($reload || count($this->cached_stats) < 1) {
             $this->team = $team;
-            $this->cached_stats = $this->countStats();
+            $this->cached_stats = $this->countStats($with_prediction);
         }
         
         return $this->cached_stats;
@@ -50,7 +51,7 @@ class TeamStatsService
      * 
      * @return array
      */
-    private function countStats(): array
+    private function countStats(bool $with_prediction = false): array
     {
         $this->matches = $this->getFinishedMatches();
 
@@ -58,12 +59,19 @@ class TeamStatsService
             'played' => $this->matches->count(),
             'won' => $this->getWonMatches()->count(),
             'draw' => $this->getDrawMatches()->count(),
+            'lost' => 0,
             'goal_difference' => $this->getGoalDifference(),
         ];
 
         $stats['lost'] = $stats['played'] - $stats['won'] - $stats['draw'];
 
         $stats['points'] = $this->countPoints($stats);
+
+        if($with_prediction && $stats['left'] < 4) {
+            $stats['win_prediction_percent'] = WinPredictionService::getWinPredictionByTeam($this->team->id);
+        } elseif($with_prediction) {
+            $stats['win_prediction_percent'] = 0;
+        }
 
         return $stats;
     }

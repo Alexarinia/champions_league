@@ -39,6 +39,11 @@ class Team extends Model
     {
         return $this->teamStatsService->getStats($this);
     }
+
+    public function getStatsWithPrediction(): array
+    {
+        return $this->teamStatsService->getStats($this, true, true);
+    }
     
     /*
     |--------------------------------------------------------------------------
@@ -66,6 +71,22 @@ class Team extends Model
     public function getStatsAttribute()
     {
         return $this->getStats();
+    }
+
+    public function getStatsWithPredictionAttribute()
+    {
+        return $this->getStatsWithPrediction();
+    }
+
+    public function getPointsAttribute()
+    {
+        return $this->stats['points'] ?? null;
+    }
+
+    public function getPredictionAttribute()
+    {
+        logger('load prediction');
+        return $this->statsWithPrediction['win_prediction_percent'] ?? 0;
     }
     
     /*
