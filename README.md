@@ -12,6 +12,9 @@ docker run --rm \
 ```
 Then
 ```
+./vendor/bin/sail up -d
+```
+
 First start may take a while. Then run
 ```
 ./vendor/bin/sail composer install
