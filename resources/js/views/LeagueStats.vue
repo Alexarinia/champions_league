@@ -51,6 +51,9 @@ export default {
         LeagueStats,
         LeagueWeek
     },
+    emits: {
+        'is-loading': value => typeof value === 'boolean'
+    },
     methods: {
         async loadCurrentWeek() {
             this.loading = true;
@@ -66,7 +69,9 @@ export default {
             }
         },
         async proceedAllWeeks() {
+            this.loading = true;
             const matchesCount = await playAllWeeks();
+            this.loading = false;
 
             if(matchesCount) {
                 this.$notify({
@@ -80,7 +85,9 @@ export default {
             }
         },
         async proceedCurrentWeek() {
+            this.loading = true;
             const matchesCount = await playCurrentWeek();
+            this.loading = false;
 
             if(matchesCount) {
                 this.$notify({
@@ -94,7 +101,9 @@ export default {
             }
         },
         async resetAllWeeks() {
+            this.loading = true;
             const matchesCount = await resetAllWeeks();
+            this.loading = false;
 
             if(matchesCount) {
                 this.$notify({
@@ -108,7 +117,9 @@ export default {
             }
         },
         async resetAllWeeksAndFixtures() {
+            this.loading = true;
             const matchesCount = await resetAllWeeksAndFixtures();
+            this.loading = false;
 
             if(matchesCount) {
                 this.$notify({
@@ -124,6 +135,11 @@ export default {
     },
     mounted() {
         this.loadCurrentWeek();
+    },
+    watch: {
+        loading(val) {
+            this.$emit('is-loading', val);
+        }
     }
 }
 </script>
