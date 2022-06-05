@@ -40,12 +40,19 @@ export default {
     data() {
         return {
             fixturesCount: null,
+            loading: false,
             teams: null
         };
     },
+    emits: {
+        'is-loading': value => typeof value === 'boolean'
+    },
     methods: {
         async generateFixtures() {
+            this.loading = true;
             const fixturesCount = await generateFixtures();
+            this.loading = false;
+
             if(fixturesCount) {
                 this.$notify({
                     group: 'success',
@@ -58,7 +65,10 @@ export default {
             }
         },
         async generateTeams() {
+            this.loading = true;
             const teamsCount = await generateTeams();
+            this.loading = false;
+
             if(teamsCount) {
                 this.$notify({
                     group: 'success',
@@ -74,14 +84,18 @@ export default {
             return !isNaN(parseFloat(n)) && isFinite(n);
         },
         async loadFixturesCount() {
+            this.loading = true;
             const fixturesCount = await getFixturesCount();
+            this.loading = false;
 
             if(this.isNumeric(fixturesCount)) {
                 this.fixturesCount = fixturesCount;
             }
         },
         async loadTeams() {
+            this.loading = true;
             const teams = await getLeagueTeams();
+            this.loading = false;
 
             if(teams.data && teams.data.length) {
                 this.teams = teams.data ?? null;
@@ -91,6 +105,11 @@ export default {
     mounted() {
         this.loadFixturesCount();
         this.loadTeams();
+    },
+    watch: {
+        loading(val) {
+            this.$emit('is-loading', val);
+        }
     }
 }
 </script>

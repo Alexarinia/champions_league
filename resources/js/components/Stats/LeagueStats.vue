@@ -10,7 +10,7 @@
                 <table class="table-auto w-full" v-if="teams">
                     <thead>
                         <tr>
-                            <th>Team Name</th>
+                            <th class="text-left">Team Name</th>
                             <th>Pts</th>
                             <th>P</th>
                             <th>W</th>
@@ -24,12 +24,12 @@
                             <td class="p-2 text-xs">
                                 {{ team.name }}
                             </td>
-                            <td>{{ team.stats.points }}</td>
-                            <td>{{ team.stats.played }}</td>
-                            <td>{{ team.stats.won }}</td>
-                            <td>{{ team.stats.draw }}</td>
-                            <td>{{ team.stats.lost }}</td>
-                            <td>{{ team.stats.goal_difference }}</td>
+                            <td class="text-center">{{ team.stats.points }}</td>
+                            <td class="text-center">{{ team.stats.played }}</td>
+                            <td class="text-center">{{ team.stats.won }}</td>
+                            <td class="text-center">{{ team.stats.draw }}</td>
+                            <td class="text-center">{{ team.stats.lost }}</td>
+                            <td class="text-center">{{ team.stats.goal_difference }}</td>
                         </tr>
                     </tbody>
                 </table>
