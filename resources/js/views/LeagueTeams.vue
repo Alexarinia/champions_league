@@ -18,13 +18,11 @@
                 </table>
             </div>
 
-            <div class="flex justify-end font-bold space-x-4 text-2xl border-t border-gray-100 px-5 py-4">
-                <div>
-                    <router-link :to="{ name: 'fixtures' }">Proceed to ready fixtures</router-link>
-                    <button type="button" @click="generateFixtures">
-                        Generate fixtures
-                    </button>
-                </div>
+            <div class="flex justify-between space-x-4 px-5 py-4">
+                <router-link class="rounded bg-slate-400 py-2 px-4 text-white inline-block" :to="{ name: 'fixtures' }">Proceed to ready fixtures</router-link>
+                <button class="rounded bg-green-700 py-2 px-4 text-white" type="button" @click="generateFixtures">
+                    Generate fixtures
+                </button>
             </div>
         </div>
     </div>

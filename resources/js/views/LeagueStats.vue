@@ -1,15 +1,15 @@
 <template>
     <div class="p-4" x-data="app">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center h-full">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center items-start h-full">
             <league-stats :stats-loading="loading" />
-            <league-week v-if="currentWeek" :week="currentWeek" />
+            <league-week class="p-0" v-if="currentWeek" :week="currentWeek" />
             <league-predictions :stats-loading="loading" />
         </div>
-        <div class="flex flex-row gap-4 justify-between h-full">
-            <button type="button" @click="proceedAllWeeks" class="rounded bg-slate-400 py-2 px-4 text-white">
+        <div class="flex flex-row gap-4 justify-between mt-3">
+            <button type="button" @click="proceedAllWeeks" class="rounded bg-green-700 py-2 px-4 text-white">
                 Play all weeks
             </button>
-            <button type="button" @click="proceedCurrentWeek" class="rounded bg-slate-400 py-2 px-4 text-white">
+            <button type="button" @click="proceedCurrentWeek" class="rounded bg-green-700 py-2 px-4 text-white">
                 Play next week
             </button>
             <button type="button" @click="resetAllWeeks" class="rounded bg-red-700 py-2 px-4 text-white">
