@@ -14,6 +14,11 @@ First start may take a while. Then run
 ```
 Open your browser and paste [http://localhost/](http://localhost/). Enjoy game simulation!
 
+To quit run in terminal
+```
+./vendor/bin/sail down
+```
+
 ## Task  
 Complete a simulation. In this simulation, there will be a group of football teams and the simulation will show match results and the league table. Task is to estimate the final league table.  
 There will be four teams in the league (teams have different strengths and the results of the matches are determined depending on the strengths of these selected teams).  
@@ -31,10 +36,10 @@ I've build some complex formulas for simulation, but they are too simple to use 
 Predictions and stats are refreshing after week playing. There is a possibility to create up to 20 unique teams. You can edit teams in `config/insider.php` file.   
 
 ## Utilities used  
-[Laravel 9](https://laravel.com/docs/9.x) - Laravel 9 backend framework
+[Laravel 9](https://laravel.com/docs/9.x) - Laravel 9 backend framework  
 [Vue.js](https://vuejs.org/) - Vue 3 framework  
-[Tailwind](https://tailwindcss.com/) - CSS-framework
-[Vue.js notifications](https://bestofvue.com/repo/kyvg-vue3-notification-vuejs-notification) - pop-up notifications    
+[Tailwind](https://tailwindcss.com/) - CSS-framework  
+[Vue.js notifications](https://bestofvue.com/repo/kyvg-vue3-notification-vuejs-notification) - pop-up notifications   
 [Tailwind component](https://tailwindcomponents.com/component/manage-product-cart) - cards Tailwind ready component  
 
 ## ToDo List  
