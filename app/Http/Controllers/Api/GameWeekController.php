@@ -27,8 +27,6 @@ class GameWeekController extends Controller
         } else {
             return GameWeek::getCurrentWeek()->playAllMatches();
         }
-
-        return 0;
     }
 
     public function resetAllMatches()

@@ -46,6 +46,10 @@ export async function getLeagueWeeks() {
   return await sendRequest('/api/weeks');
 }
 
+export async function getPredictionsTeams() {
+  return await sendRequest('/api/teams/predictions');
+}
+
 export async function getStatsTeams() {
   return await sendRequest('/api/teams/stats');
 }

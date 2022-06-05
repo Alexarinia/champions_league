@@ -28,6 +28,9 @@ class TeamResource extends JsonResource
                     'goal_difference' => $this->stats['goal_difference'],
                 ];
             }),
+            'prediction' => $this->when($this->hasAppended('prediction'), function() {
+                return $this->prediction;
+            }),
             'goals' => $this->whenPivotLoaded('game_match_team', function () {
                 return $this->pivot->goals;
             }),

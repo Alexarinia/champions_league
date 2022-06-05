@@ -38,7 +38,7 @@ class GameWeek extends Model
      */
     public function isFinished(): bool
     {
-        return $this->matches->where('finished', 0)->count() > 0;
+        return $this->matches->where('finished', 0)->count() === 0;
     }
 
     /**
