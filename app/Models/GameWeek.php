@@ -110,6 +110,7 @@ class GameWeek extends Model
 
         if(! $last_week) {
             $last_week = static::with('matches')->orderBy('week_order', 'desc')->first();
+            $last_week->append('finished');
         }
         
         return $last_week;
@@ -199,6 +200,11 @@ class GameWeek extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+
+    public function getFinishedAttribute()
+    {
+        return $this->isFinished();
+    }
     
     /*
     |--------------------------------------------------------------------------

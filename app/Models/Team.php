@@ -18,7 +18,7 @@ class Team extends Model
     |-------------------------------------------------------------------------- 
     */
     
-    const TEAMS_COUNT = 16;
+    const TEAMS_COUNT = 8;
 
     protected $table = 'teams';
 

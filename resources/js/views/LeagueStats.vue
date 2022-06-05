@@ -9,10 +9,18 @@
             <router-link class="rounded bg-slate-400 py-2 px-4 text-white inline-block" :to="{ name: 'fixtures' }">
                 Show fixtures
             </router-link>
-            <button type="button" @click="proceedAllWeeks" class="rounded bg-green-700 py-2 px-4 text-white">
+            <button type="button" 
+                    v-if="currentWeek" 
+                    @click="proceedAllWeeks"
+                    :disabled="currentWeek.finished"
+                    class="rounded bg-green-700 py-2 px-4 text-white disabled:opacity-75">
                 Play all weeks
             </button>
-            <button type="button" @click="proceedCurrentWeek" class="rounded bg-green-700 py-2 px-4 text-white">
+            <button type="button"
+                    v-if="currentWeek"
+                    @click="proceedCurrentWeek"
+                    :disabled="currentWeek.finished"
+                    class="rounded bg-green-700 py-2 px-4 text-white disabled:opacity-75">
                 Play next week
             </button>
             <button type="button" @click="resetAllWeeks" class="rounded bg-red-700 py-2 px-4 text-white">
@@ -48,7 +56,7 @@ export default {
             this.loading = true;
             const week = await getCurrentWeek();
 
-            if(week && week.data && week.data.length) {
+            if(week && week.data) {
                 this.currentWeek = week.data ?? null;
             }
 

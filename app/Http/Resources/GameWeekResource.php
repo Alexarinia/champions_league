@@ -22,6 +22,9 @@ class GameWeekResource extends JsonResource
             'matches' => $this->whenLoaded('matches', function() {
                 return new GameMatchCollection($this->matches);
             }),
+            'finished' => $this->when($this->hasAppended('finished'), function() {
+                return $this->finished;
+            }),
         ];
     }
 }

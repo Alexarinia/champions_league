@@ -24,8 +24,8 @@
                     Generate fixtures
                 </button>
             </div>
-            <div class="flex justify-center space-x-4 px-5 py-4" v-else>
-                <button v-if="fixturesCount === 0" class="rounded bg-green-700 py-2 px-4 text-white" type="button" @click="generateTeams">
+            <div class="flex justify-between space-x-4 px-5 py-4">
+                <button v-if="fixturesCount === 0" class="rounded bg-blue-700 py-2 px-4 text-white" type="button" @click="generateTeams">
                     Generate teams
                 </button>
             </div>
@@ -66,7 +66,7 @@ export default {
                     text: `Generated ${teamsCount} teams`,
                     type: 'success',
                 });
-                
+
                 this.loadTeams();
             }
         },
