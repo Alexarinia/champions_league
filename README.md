@@ -3,7 +3,14 @@
 ## Install
 Clone project. Go to a project folder. Copy file `.env.example`, rename copy to `.env` and fill database settings if you wish. Run in terminal
 ```
-./vendor/bin/sail up -d
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/opt \
+    -w /opt \
+    laravelsail/php80-composer:latest \
+    composer install --ignore-platform-reqs
+```
+Then
 ```
 First start may take a while. Then run
 ```
@@ -49,5 +56,7 @@ Predictions and stats are refreshing after week playing. There is a possibility 
 - [ ] Better probability formulas.  
 - [ ] More beutiful consistent design with good UX.  
 - [ ] Extend error handling.  
+- [ ] Rare browser error `ERR_EMPTY_RESPONSE` after click "Generate fixtures".  
+- [ ] Show something meaningful in Predictions section after all weeks were played.  
 - [ ] etc...
 
