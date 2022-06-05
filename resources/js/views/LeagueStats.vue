@@ -15,6 +15,9 @@
             <button type="button" @click="resetAllWeeks" class="rounded bg-red-700 py-2 px-4 text-white">
                 Reset data
             </button>
+            <button type="button" @click="resetAllWeeksAndFixtures" class="rounded bg-red-700 py-2 px-4 text-white">
+                Reset data with fixtures
+            </button>
         </div>
     </div>
 </template>
@@ -23,7 +26,7 @@
 import LeaguePredictions from '@/components/Predictions/LeaguePredictions.vue';
 import LeagueStats from '@/components/Stats/LeagueStats.vue';
 import LeagueWeek from '@/components/Weeks/LeagueWeek.vue';
-import { getCurrentWeek, playAllWeeks, playCurrentWeek, resetAllWeeks } from '@/store/fetchData';
+import { getCurrentWeek, playAllWeeks, playCurrentWeek, resetAllWeeks, resetAllWeeksAndFixtures } from '@/store/fetchData';
 
 export default {
     data() {
@@ -82,6 +85,20 @@ export default {
                 });
 
                 this.$router.push({ name: 'fixtures' });
+            }
+        },
+        async resetAllWeeksAndFixtures() {
+            const matchesCount = await resetAllWeeksAndFixtures();
+
+            if(matchesCount) {
+                this.$notify({
+                    group: 'success',
+                    title: 'Success',
+                    text: `${matchesCount} matches was reset. Fixtures was deleted`,
+                    type: 'success',
+                });
+
+                this.$router.push({ name: 'home' });
             }
         },
     },

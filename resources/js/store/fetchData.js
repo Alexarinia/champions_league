@@ -64,6 +64,10 @@ export async function resetAllWeeks() {
   return await sendRequest('/api/weeks/reset', 'POST');
 }
 
+export async function resetAllWeeksAndFixtures() {
+  return await sendRequest('/api/weeks/reset-all', 'POST');
+}
+
 function handleError(error) {
   let text = 'Something went wrong';
 

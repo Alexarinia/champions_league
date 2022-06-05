@@ -106,10 +106,10 @@ class GameWeek extends Model
      */
     public static function getCurrentWeek(): static
     {
-        $last_week = static::activeWeeks()->first();
+        $last_week = static::activeWeeks()->with('matches')->first();
 
         if(! $last_week) {
-            $last_week = static::orderBy('week_order', 'desc')->first();
+            $last_week = static::with('matches')->orderBy('week_order', 'desc')->first();
         }
         
         return $last_week;
@@ -142,6 +142,22 @@ class GameWeek extends Model
         
         foreach(static::all() as $week) {
             $counter += $week->resetAllMatches();
+        }
+
+        return $counter;
+    }
+
+    public static function resetAllMatchesAndFixtures(): int
+    {
+        $counter = 0;
+        
+        foreach(static::all() as $week) {
+            foreach($week->matches as $match) {
+                $match->delete();
+                $counter++;
+            }
+
+            $week->delete();
         }
 
         return $counter;
