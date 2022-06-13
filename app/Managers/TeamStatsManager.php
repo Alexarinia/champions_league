@@ -4,8 +4,8 @@ namespace App\Managers;
 
 use App\Models\Team;
 use App\Managers\WinPredictionManager;
+use App\Pivot\GameMatchTeam;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class TeamStatsManager
 {
@@ -136,8 +136,7 @@ class TeamStatsManager
     private function getGoalDifference(): int
     {
         $scored_goals = $this->matches->sum('pivot.goals');
-        $missed_goals = (int) DB::table('game_match_team')
-                                ->whereIn('game_match_id', $this->matches->pluck('id')->toArray())
+        $missed_goals = (int) GameMatchTeam::whereIn('game_match_id', $this->matches->pluck('id')->toArray())
                                 ->whereNot('team_id', $this->team->id)
                                 ->sum('goals');
 
