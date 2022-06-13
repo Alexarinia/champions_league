@@ -2,13 +2,15 @@
 
 namespace App\Contracts\Repositories;
 
+use Illuminate\Support\Collection;
+
 interface TeamRepositoryInterface
 {
-    public function all();
+    public function all(): Collection;
 
-    public function regenerateTeams();
+    public function regenerateTeams(): int;
 
-    public function withMatches();
+    public function withMatches(): Collection;
 
-    public function withPredictions();
+    public function withPredictions(): Collection;
 }

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Managers\FinishMatchManager;
-use App\Managers\FixtureGenerateManager;
 use App\Models\GameWeek;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Builder;
@@ -97,16 +96,6 @@ class GameMatch extends Model
         $this->teams()->updateExistingPivot($this->getGuest()->id, [
             'goals' => null,
         ]);
-    }
-    
-    /**
-     * Generates all fixtures for game weeks
-     * 
-     * @return int
-     */
-    public static function generateFixtures(): int
-    {
-        return FixtureGenerateManager::generateFixtures();
     }
 
     /*
