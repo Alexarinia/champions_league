@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Managers;
 
 use App\Models\Team;
-use App\Services\WinPredictionService;
+use App\Managers\WinPredictionManager;
+use App\Pivot\GameMatchTeam;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
-class TeamStatsService
+class TeamStatsManager
 {
     const POINTS_PRICES = [
         'won' => 3,
@@ -69,7 +69,7 @@ class TeamStatsService
         $stats['points'] = $this->countPoints($stats);
 
         if($with_prediction && $stats['left'] > 0) {
-            $stats['win_prediction_percent'] = WinPredictionService::getWinPredictionByTeam($this->team->id);
+            $stats['win_prediction_percent'] = WinPredictionManager::getWinPredictionByTeam($this->team->id);
         } elseif($with_prediction) {
             $stats['win_prediction_percent'] = 0;
         }
@@ -136,8 +136,7 @@ class TeamStatsService
     private function getGoalDifference(): int
     {
         $scored_goals = $this->matches->sum('pivot.goals');
-        $missed_goals = (int) DB::table('game_match_team')
-                                ->whereIn('game_match_id', $this->matches->pluck('id')->toArray())
+        $missed_goals = (int) GameMatchTeam::whereIn('game_match_id', $this->matches->pluck('id')->toArray())
                                 ->whereNot('team_id', $this->team->id)
                                 ->sum('goals');
 

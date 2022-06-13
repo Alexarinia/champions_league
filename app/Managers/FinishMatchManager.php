@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Managers;
 
 use App\Models\GameMatch;
 use App\Models\Team;
 
-class FinishMatchService
+class FinishMatchManager
 {
     protected $goals_probabilities = [
         0 => 20,

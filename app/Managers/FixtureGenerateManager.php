@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Managers;
 
 use App\Exceptions\LeagueException;
 use App\Models\GameMatch;
@@ -8,7 +8,7 @@ use App\Models\GameWeek;
 use App\Models\Team;
 use Illuminate\Support\Collection;
 
-class FixtureGenerateService
+class FixtureGenerateManager
 {
     /**
      * Generates fixtures and returns count of generated matches

@@ -2,30 +2,33 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Repositories\TeamRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TeamCollection;
-use App\Models\Team;
-use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
+    private $teams;
+
+    public function __construct(TeamRepositoryInterface $team_repository)
+    {
+        $this->teams = $team_repository;
+    }
+    
     public function getTeamsList() {
-        return new TeamCollection(Team::all());
+        return new TeamCollection($this->teams->all());
     }
 
     public function getTeamsStatsList() {
-        return new TeamCollection(Team::with('matches')->get());
+        return new TeamCollection($this->teams->withMatches());
     }
 
     public function getTeamsPredictionsList() {
-        $teams = Team::with('matches')->get();
-        $teams = $teams->each->append('prediction');
-
-        return new TeamCollection($teams);
+        return new TeamCollection($this->teams->withPredictions());
     }
 
     public function generateTeams()
     {
-        return Team::regenerateTeams();
+        return $this->teams->regenerateTeams();
     }
 }

@@ -65,6 +65,7 @@ class GameWeek extends Model
         });
     }
 
+
     /**
      * Plays all unfinished matches of the week
      * 
@@ -73,8 +74,9 @@ class GameWeek extends Model
     public function playAllMatches(): int
     {
         $counter = 0;
+        $matches = $this->getUnfinishedMatches();
         
-        foreach($this->getUnfinishedMatches() as $match) {
+        foreach($matches as $match) {
             $match->finish();
             $counter++;
         }
@@ -94,71 +96,6 @@ class GameWeek extends Model
         foreach($this->getFinishedMatches() as $match) {
             $match->resetProgress();
             $counter++;
-        }
-
-        return $counter;
-    }
-
-    /**
-     * Gets current game week
-     * 
-     * @return static|null
-     */
-    public static function getCurrentWeek(): ?static
-    {
-        $last_week = static::activeWeeks()->with('matches')->first();
-
-        if(! $last_week) {
-            $last_week = static::with('matches')->orderBy('week_order', 'desc')->first();
-            $last_week->append('finished');
-        }
-        
-        return $last_week;
-    }
-
-    /**
-     * Plays all unfinished matches of all unfinished weeks
-     * 
-     * @return int
-     */
-    public static function playAllWeeks(): int
-    {
-        $counter = 0;
-        
-        foreach(static::activeWeeks()->get() as $week) {
-            $counter += $week->playAllMatches();
-        }
-
-        return $counter;
-    }
-
-    /**
-     * Resets all matches of all weeks
-     * 
-     * @return int
-     */
-    public static function resetAllWeeks(): int
-    {
-        $counter = 0;
-        
-        foreach(static::all() as $week) {
-            $counter += $week->resetAllMatches();
-        }
-
-        return $counter;
-    }
-
-    public static function resetAllMatchesAndFixtures(): int
-    {
-        $counter = 0;
-        
-        foreach(static::all() as $week) {
-            foreach($week->matches as $match) {
-                $match->delete();
-                $counter++;
-            }
-
-            $week->delete();
         }
 
         return $counter;

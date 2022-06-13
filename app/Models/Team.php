@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use App\Managers\TeamStatsManager;
 use App\Models\GameMatch;
-use App\Services\TeamStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Team extends Model
 {
@@ -22,7 +21,7 @@ class Team extends Model
 
     protected $table = 'teams';
 
-    protected $teamStatsService = null;
+    protected $teamStatsManager = null;
     
     /*
     |--------------------------------------------------------------------------
@@ -34,25 +33,17 @@ class Team extends Model
     {
         parent::__construct($attributes);
 
-        $this->teamStatsService = new TeamStatsService;
+        $this->teamStatsManager = new TeamStatsManager;
     }
 
     public function getStats(): array
     {
-        return $this->teamStatsService->getStats($this);
+        return $this->teamStatsManager->getStats($this);
     }
 
     public function getStatsWithPrediction(): array
     {
-        return $this->teamStatsService->getStats($this, true, true);
-    }
-
-    public static function regenerateTeams(): int
-    {
-        DB::table('teams')->delete();
-        static::factory()->count(self::TEAMS_COUNT)->create();
-
-        return self::TEAMS_COUNT;
+        return $this->teamStatsManager->getStats($this, true, true);
     }
     
     /*
