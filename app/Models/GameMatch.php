@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Managers\FinishMatchManager;
+use App\Managers\FixtureGenerateManager;
 use App\Models\GameWeek;
 use App\Models\Team;
-use App\Services\FinishMatchService;
-use App\Services\FixtureGenerateService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +22,7 @@ class GameMatch extends Model
 
     protected $table = 'game_matches';
 
-    protected $finishMatchService = null;
+    protected $finishMatchManager = null;
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ class GameMatch extends Model
     {
         parent::__construct($attributes);
 
-        $this->finishMatchService = new FinishMatchService;
+        $this->finishMatchManager = new FinishMatchManager;
     }
 
     /**
@@ -106,7 +106,7 @@ class GameMatch extends Model
      */
     public static function generateFixtures(): int
     {
-        return FixtureGenerateService::generateFixtures();
+        return FixtureGenerateManager::generateFixtures();
     }
 
     /*

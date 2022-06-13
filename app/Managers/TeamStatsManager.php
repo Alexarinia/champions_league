@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Managers;
 
 use App\Models\Team;
-use App\Services\WinPredictionService;
+use App\Managers\WinPredictionManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class TeamStatsService
+class TeamStatsManager
 {
     const POINTS_PRICES = [
         'won' => 3,
@@ -69,7 +69,7 @@ class TeamStatsService
         $stats['points'] = $this->countPoints($stats);
 
         if($with_prediction && $stats['left'] > 0) {
-            $stats['win_prediction_percent'] = WinPredictionService::getWinPredictionByTeam($this->team->id);
+            $stats['win_prediction_percent'] = WinPredictionManager::getWinPredictionByTeam($this->team->id);
         } elseif($with_prediction) {
             $stats['win_prediction_percent'] = 0;
         }

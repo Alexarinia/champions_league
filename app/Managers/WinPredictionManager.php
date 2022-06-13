@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Managers;
 
 use App\Models\GameWeek;
 use App\Models\Team;
-use App\Services\TeamStatsService;
+use App\Managers\TeamStatsManager;
 use Illuminate\Support\Collection;
 
-class WinPredictionService
+class WinPredictionManager
 {
 
     protected static $weeks_left;
@@ -74,7 +74,7 @@ class WinPredictionService
      */
     private static function countPredictions(Collection &$teams): Collection
     {
-        $max_points_possible = self::$weeks_left->count() * TeamStatsService::POINTS_PRICES['won'];
+        $max_points_possible = self::$weeks_left->count() * TeamStatsManager::POINTS_PRICES['won'];
         $max_current_points = $teams->max('points');
         $possible_winners = [];
         $teams_count = $teams->count();
