@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class GameMatchRepository implements GameMatchRepositoryInterface
 {
     /**
-     * Gets all teams
+     * Gets all matches
      * 
      * @return Collection
      */

@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Repositories\GameWeekRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GameWeek\GameWeekPlayAllRequest;
 use App\Http\Resources\GameWeekCollection;
 use App\Http\Resources\GameWeekResource;
-use App\Models\GameWeek;
 
 class GameWeekController extends Controller
 {
+    private $weeks;
+
+    public function __construct(GameWeekRepositoryInterface $week_repository)
+    {
+        $this->weeks = $week_repository;
+    }
+
     public function getGameWeeksList()
     {
-        return new GameWeekCollection(GameWeek::with('matches')->orderBy('week_order')->get());
+        return new GameWeekCollection($this->weeks->getOrderedWeeksWithMatches());
     }
 
     public function getCurrentGameWeek()
     {
-        $current_week = GameWeek::getCurrentWeek();
+        $current_week = $this->weeks->getCurrentWeek();
         
         if($current_week) {
             return new GameWeekResource($current_week);
@@ -29,19 +36,19 @@ class GameWeekController extends Controller
     public function playGameWeek(GameWeekPlayAllRequest $request)
     {
         if($request->has('all') && $request->all == true) {
-            return GameWeek::playAllWeeks();
+            return $this->weeks->playAllWeeks();
         } else {
-            return GameWeek::getCurrentWeek()->playAllMatches();
+            return $this->weeks->playAllMatchesOfCurrentWeek();
         }
     }
 
     public function resetAllMatches()
     {
-        return GameWeek::resetAllWeeks();
+        return $this->weeks->resetAllWeeks();
     }
 
     public function resetAllMatchesAndFixtures()
     {
-        return GameWeek::resetAllMatchesAndFixtures();
+        return $this->weeks->resetAllMatchesAndFixtures();
     }
 }

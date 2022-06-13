@@ -77,7 +77,7 @@ class GameMatch extends Model
      */
     public function finish(): array
     {
-        return $this->finishMatchService->finishMatch($this);
+        return $this->finishMatchManager->finishMatch($this);
     }
 
     /**
