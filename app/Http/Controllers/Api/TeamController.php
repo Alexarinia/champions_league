@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Repositories\TeamRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TeamCollection;
-use App\Models\Team;
 
 class TeamController extends Controller
 {
@@ -30,6 +29,6 @@ class TeamController extends Controller
 
     public function generateTeams()
     {
-        return Team::regenerateTeams();
+        return $this->teams->regenerateTeams();
     }
 }

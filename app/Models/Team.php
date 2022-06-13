@@ -6,7 +6,6 @@ use App\Managers\TeamStatsManager;
 use App\Models\GameMatch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Team extends Model
 {
@@ -45,14 +44,6 @@ class Team extends Model
     public function getStatsWithPrediction(): array
     {
         return $this->teamStatsManager->getStats($this, true, true);
-    }
-
-    public static function regenerateTeams(): int
-    {
-        DB::table('teams')->delete();
-        static::factory()->count(self::TEAMS_COUNT)->create();
-
-        return self::TEAMS_COUNT;
     }
     
     /*
