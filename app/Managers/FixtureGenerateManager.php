@@ -5,7 +5,6 @@ namespace App\Managers;
 use App\Exceptions\LeagueException;
 use App\Models\GameMatch;
 use App\Models\GameWeek;
-use App\Models\Team;
 use App\Pivot\GameMatchTeam;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -17,10 +16,8 @@ class FixtureGenerateManager
      * 
      * @return int
      */
-    public static function generateFixtures(): int
+    public static function generateFixtures(Collection $teams): int
     {
-        $teams = Team::all();
-
         if(! $teams || $teams->count() < 2) {
             throw new LeagueException('Teams quantity is very small to create any fixtures');
         }

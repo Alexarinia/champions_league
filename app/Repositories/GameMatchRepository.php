@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Managers\FixtureGenerateManager;
 use App\Models\GameMatch;
+use App\Models\Team;
 use App\Contracts\Repositories\GameMatchRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -36,6 +37,6 @@ class GameMatchRepository implements GameMatchRepositoryInterface
      */
     public static function generateFixtures(): int
     {
-        return FixtureGenerateManager::generateFixtures();
+        return FixtureGenerateManager::generateFixtures(Team::all());
     }
 }
