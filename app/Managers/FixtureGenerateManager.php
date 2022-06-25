@@ -6,7 +6,9 @@ use App\Exceptions\LeagueException;
 use App\Models\GameMatch;
 use App\Models\GameWeek;
 use App\Models\Team;
+use App\Pivot\GameMatchTeam;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class FixtureGenerateManager
 {
@@ -160,6 +162,8 @@ class FixtureGenerateManager
     private static function saveGeneratedWeeks(array $weeks, Collection $teams): int
     {
         $matches_count = 0;
+
+        $pivots = [];
         
         foreach($weeks as $week) {
             $new_week = GameWeek::create([
@@ -175,9 +179,24 @@ class FixtureGenerateManager
                 $host = $teams->where('id', $matches[0])->first();
                 $guest = $teams->where('id', $matches[1])->first();
 
-                $new_match->teams()->attach($host, ['host' => 1, 'goals' => null]);
-                $new_match->teams()->attach($guest, ['host' => 0, 'goals' => null]);
+                $pivots[] = [
+                    'game_match_id' => $new_match->id,
+                    'team_id' => $host->id,
+                    'host' => 1,
+                    'goals' => null,
+                ];
+
+                $pivots[] = [
+                    'game_match_id' => $new_match->id,
+                    'team_id' => $guest->id,
+                    'host' => 0,
+                    'goals' => null,
+                ];
             }
+        }
+
+        if(count($pivots)) {
+            DB::table(GameMatchTeam::getTableName())->insert($pivots);
         }
 
         return $matches_count;
